@@ -10,10 +10,12 @@ public class GenerateRandomNameHandler : IRequestHandler<GenerateRandomNameReque
 
     public GenerateRandomNameHandler(Random random)
     {
-        _random = random;
+        _random = random ?? throw new ArgumentNullException(nameof(random));
     }
 
-    public async Task<string> Handle(GenerateRandomNameRequest request, CancellationToken cancellationToken)
+    public async Task<string> Handle(
+        GenerateRandomNameRequest request, 
+        CancellationToken cancellationToken)
     {
         var adjectives = (await File.ReadAllTextAsync("english-adjectives.txt", cancellationToken)).Split("\n").Randomize().ToList();
         var adjective = adjectives[_random.Next(0, adjectives.Count)];

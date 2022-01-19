@@ -22,11 +22,11 @@ namespace Dalton.Bot.Services
             IServiceProvider serviceProvider, 
             ILogger<StartupService> logger)
         {
-            _settings = settings.Value;
-            _discord = discord;
-            _commands = commands;
-            _serviceProvider = serviceProvider;
-            _logger = logger;
+            _settings = settings == null ? throw new ArgumentNullException(nameof(settings)) : settings.Value;
+            _discord = discord ?? throw new ArgumentNullException(nameof(discord));
+            _commands = commands ?? throw new ArgumentNullException(nameof(commands));
+            _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public async Task StartAsync()

@@ -15,8 +15,8 @@ namespace Dalton.Bot.Services
             DiscordSocketClient discord,
             IMediator mediator)
         {
-            _discord = discord;
-            _mediator = mediator;
+            _discord = discord ?? throw new ArgumentNullException(nameof(discord));
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
         public void Init()
@@ -24,7 +24,10 @@ namespace Dalton.Bot.Services
             _discord.UserJoined += UserJoinedGuild;
             _discord.GuildMemberUpdated += GuildMemberUpdated;
         }
-        private async Task GuildMemberUpdated(Cacheable<SocketGuildUser, ulong> arg1, SocketGuildUser arg2)
+
+        private async Task GuildMemberUpdated(
+            Cacheable<SocketGuildUser, ulong> arg1, 
+            SocketGuildUser arg2)
         {
             await ValidateUser(arg2);
         }

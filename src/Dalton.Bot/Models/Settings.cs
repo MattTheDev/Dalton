@@ -2,6 +2,6 @@
 
 public class Settings
 {
-    public string Prefix { get; set; }
-    public string BotToken { get; set; }
+    public string Prefix { get; set; } = string.Empty;
+    public string BotToken { get; set; } = string.Empty;
 }

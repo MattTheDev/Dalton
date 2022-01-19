@@ -22,9 +22,10 @@ namespace Dalton.Bot.Services.Hosted
         {
             _discord = discord ?? throw new ArgumentNullException(nameof(discord));
             _commandService = commandService ?? throw new ArgumentNullException(nameof(commandService));
-            _startupService = startupService;
-            _logger = logger;
-            _guildInteractionService = guildInteractionService;
+            _startupService = startupService ?? throw new ArgumentNullException(nameof(startupService));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _guildInteractionService = guildInteractionService ??
+                                       throw new ArgumentNullException(nameof(guildInteractionService));
         }
 
         public async Task StartAsync(CancellationToken cancellationToken)

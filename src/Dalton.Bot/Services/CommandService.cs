@@ -18,10 +18,10 @@ namespace Dalton.Bot.Services
             IOptions<Settings> settings,
             IServiceProvider provider)
         {
-            _discord = discord;
-            _commands = commands;
-            _settings = settings.Value;
-            _provider = provider;
+            _discord = discord ?? throw new ArgumentNullException(nameof(discord));
+            _commands = commands ?? throw new ArgumentNullException(nameof(commands));
+            _settings = settings == null ? throw new ArgumentNullException(nameof(settings)) : settings.Value;
+            _provider = provider ?? throw new ArgumentNullException(nameof(provider));
         }
 
         public void Init()
