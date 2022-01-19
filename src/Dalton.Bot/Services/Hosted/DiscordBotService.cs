@@ -10,18 +10,21 @@ namespace Dalton.Bot.Services.Hosted
         private readonly DiscordSocketClient _discord;
         private readonly CommandService _commandService;
         private readonly StartupService _startupService;
+        private readonly GuildInteractionService _guildInteractionService;
         private readonly ILogger<DiscordBotService> _logger;
 
         public DiscordBotService(
             DiscordSocketClient discord,
             CommandService commandService,
             StartupService startupService, 
-            ILogger<DiscordBotService> logger)
+            ILogger<DiscordBotService> logger, 
+            GuildInteractionService guildInteractionService)
         {
             _discord = discord ?? throw new ArgumentNullException(nameof(discord));
             _commandService = commandService ?? throw new ArgumentNullException(nameof(commandService));
             _startupService = startupService;
             _logger = logger;
+            _guildInteractionService = guildInteractionService;
         }
 
         public async Task StartAsync(CancellationToken cancellationToken)
@@ -43,6 +46,7 @@ namespace Dalton.Bot.Services.Hosted
             _logger.LogInformation("Discord user connected: {Username}", _discord.CurrentUser.Username);
 
             _commandService.Init();
+            _guildInteractionService.Init();
         }
 
         public Task StopAsync(CancellationToken cancellationToken)

@@ -51,6 +51,13 @@ namespace Dalton.Bot
             var socketConfig = new DiscordSocketConfig
             {
                 LogLevel = LogSeverity.Verbose,
+                GatewayIntents = GatewayIntents.DirectMessages |
+                                 GatewayIntents.GuildIntegrations |
+                                 GatewayIntents.GuildMembers |
+                                 GatewayIntents.GuildMessageReactions |
+                                 GatewayIntents.GuildMessages |
+                                 GatewayIntents.GuildPresences |
+                                 GatewayIntents.Guilds,
             };
 
             services.AddSingleton<Random>();
@@ -58,6 +65,7 @@ namespace Dalton.Bot
             services.AddSingleton(new Discord.Commands.CommandService());
             services.AddSingleton<CommandService>();
             services.AddSingleton<StartupService>();
+            services.AddSingleton<GuildInteractionService>();
             services.AddHostedService<DiscordBotService>();
         }
     }
