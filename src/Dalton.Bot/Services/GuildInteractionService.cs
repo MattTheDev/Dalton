@@ -1,8 +1,10 @@
 ﻿using Dalton.Bot.Mediator.Requests;
+using Dalton.Bot.Models;
 using Dalton.Bot.Utilities;
 using Discord;
 using Discord.WebSocket;
 using MediatR;
+using Microsoft.Extensions.Options;
 
 namespace Dalton.Bot.Services
 {
@@ -10,13 +12,16 @@ namespace Dalton.Bot.Services
     {
         private readonly DiscordSocketClient _discord;
         private readonly IMediator _mediator;
+        private readonly Settings _settings;
 
         public GuildInteractionService(
             DiscordSocketClient discord,
-            IMediator mediator)
+            IMediator mediator, 
+            IOptions<Settings> settings)
         {
             _discord = discord ?? throw new ArgumentNullException(nameof(discord));
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            _settings = settings == null ? throw new ArgumentNullException(nameof(settings)) : settings.Value;
         }
 
         public void Init()
@@ -48,7 +53,7 @@ namespace Dalton.Bot.Services
 
             // Validate if username/nickname needs to be modified.
             var nameToCheck = guildUser.Nickname ?? guildUser.Username;
-            var isAlphaNumeric = nameToCheck.IsAlphaNumeric();
+            var isAlphaNumeric = nameToCheck.IsAlphaNumeric(_settings.AllowedCharacters.ToCharArray());
 
             // If not, let's change it.
             if (!isAlphaNumeric)

@@ -19,8 +19,11 @@ public static class StringUtilities
         return str.ToUpper(CultureInfo.InvariantCulture);
     }
 
-    public static bool IsAlphaNumeric(this string str)
+    public static bool IsAlphaNumeric(this string str, char[] additionalAllowed)
     {
-        return str.All(char.IsLetterOrDigit);
+        return str.All(x =>
+            char.IsWhiteSpace(x) ||
+            char.IsLetterOrDigit(x) ||
+            additionalAllowed.Any(y => x == y));
     }
 }

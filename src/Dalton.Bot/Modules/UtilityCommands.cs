@@ -10,7 +10,7 @@ public class UtilityCommands : ModuleBase
 
     public UtilityCommands(IMediator mediator)
     {
-        _mediator = mediator;
+        _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
     }
 
     [Command("ping", RunMode = RunMode.Async)]

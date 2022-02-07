@@ -4,4 +4,5 @@ public class Settings
 {
     public string Prefix { get; set; } = string.Empty;
     public string BotToken { get; set; } = string.Empty;
+    public string AllowedCharacters { get; set; } = string.Empty;
 }
